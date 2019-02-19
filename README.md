@@ -14,6 +14,7 @@ require('@sharaal/sql-pg')(client)
 
 ```javascript
 client.select('table', { column: 'value' })
+
 // text: SELECT "*" FROM "table" WHERE "column" = $1
 // parameters: ['value']
 ```
@@ -22,6 +23,7 @@ client.select('table', { column: 'value' })
 
 ```javascript
 client.select('table', { columnA: 'valueA', columnB: 'valueB', columnC: 'valueC' })
+
 // text: SELECT "*" FROM "table" WHERE "columnA" = $1 AND "columnB" = $2 AND "columnC" = $3
 // parameters: ['valueA', 'valueB', 'valueC']
 ```
@@ -30,6 +32,7 @@ client.select('table', { columnA: 'valueA', columnB: 'valueB', columnC: 'valueC'
 
 ```javascript
 client.select('table', ['column'], { column: 'value' })
+
 // text: SELECT "column" FROM "table" WHERE "column" = $1
 // parameters: ['value']
 ```
@@ -38,6 +41,7 @@ client.select('table', ['column'], { column: 'value' })
 
 ```javascript
 client.select('table', ['columnA', 'columnB', 'columnC'], { column: 'value' })
+
 // text: SELECT "columnA", "columnB", "columnC" FROM "table" WHERE "column" = $1
 // parameters: ['value']
 ```
@@ -46,6 +50,7 @@ client.select('table', ['columnA', 'columnB', 'columnC'], { column: 'value' })
 
 ```javascript
 client.select('table', ['columnA', 'columnB', 'columnC'], { columnA: 'valueA', columnB: 'valueB', columnC: 'valueC' })
+
 // text: SELECT "columnA", "columnB", "columnC" FROM "table" WHERE "columnA" = $1 AND "columnB" = $2 AND "columnC" = $3
 // parameters: ['valueA', 'valueB', 'valueC']
 ```
@@ -56,6 +61,7 @@ client.select('table', ['columnA', 'columnB', 'columnC'], { columnA: 'valueA', c
 
 ```javascript
 client.insert('table', { column: 'value' })
+
 // text: INSERT INTO "table" ("column") VALUES ($1)
 // parameters: ['value']
 ```
@@ -64,6 +70,7 @@ client.insert('table', { column: 'value' })
 
 ```javascript
 client.insert('table', { columnA: 'valueA', columnB: 'valueB', columnC: 'valueC' })
+
 // text: INSERT INTO "table" ("columnA", "columnB", "columnC") VALUES ($1, $2, $3)
 // parameters: ['valueA', 'valueB', 'valueC']
 ```
@@ -74,6 +81,7 @@ client.insert('table', { columnA: 'valueA', columnB: 'valueB', columnC: 'valueC'
 
 ```javascript
 client.update('table', { column: 'new value' }, { column: 'old value' })
+
 // text: UPDATE "table" SET "column" = $1 WHERE "column" = $2
 // parameters: ['new value', 'old value']
 ```
@@ -82,6 +90,7 @@ client.update('table', { column: 'new value' }, { column: 'old value' })
 
 ```javascript
 client.update('table', { columnA: 'new valueA', columnB: 'new valueB', columnC: 'new valueC' }, { column: 'old value' })
+
 // text: UPDATE "table" SET "columnA" = $1, "columnB" = $2, "columnC" = $3 WHERE "column" = $4
 // parameters: ['new valueA', 'new valueB', 'new valueC', 'old value']
 ```
@@ -90,6 +99,7 @@ client.update('table', { columnA: 'new valueA', columnB: 'new valueB', columnC: 
 
 ```javascript
 client.update('table', { columnA: 'new valueA', columnB: 'new valueB', columnC: 'new valueC' }, { columnA: 'old valueA', columnB: 'old valueB', columnC: 'old valueC' })
+
 // text: UPDATE "table" SET "columnA" = $1, "columnB" = $2, "columnC" = $3 WHERE "columnA" = $4 AND "columnB" = $5 AND "columnC" = $6
 // parameters: [ 'new valueA', 'new valueB', 'new valueC', 'old valueA', 'old valueB', 'old valueC']
 ```
@@ -100,6 +110,7 @@ client.update('table', { columnA: 'new valueA', columnB: 'new valueB', columnC: 
 
 ```javascript
 client.delete('table', { column: 'value' })
+
 // text: DELETE FROM "table" WHERE "column" = $1
 // parameters: ['value']
 ```
@@ -108,6 +119,7 @@ client.delete('table', { column: 'value' })
 
 ```javascript
 client.delete('table', { columnA: 'valueA', columnB: 'valueB', columnC: 'valueC' })
+
 // text: DELETE FROM "table" WHERE "columnA" = $1 AND "columnB" = $2 AND "columnC" = $3
 // parameters: ['valueA', 'valueB', 'valueC']
 ```
