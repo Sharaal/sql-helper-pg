@@ -3,7 +3,11 @@ const sql = require('../sql')
 module.exports = client =>
   Object.assign(client, {
     select: async (table, columns, conditions) => {
-      const result = await client.query(sql`SELECT ${sql.identifiers(conditions ? columns : ['*'])} FROM ${sql.identifier(table)} WHERE ${sql.pairs(conditions ? conditions : columns, ' AND ')}`)
+      if (!conditions) {
+        conditions = columns
+        columns = ['*']
+      }
+      const result = await client.query(sql`SELECT ${sql.identifiers(columns)} FROM ${sql.identifier(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
       return result.rows
     },
     insert: async (table, rows, serialColumn = 'id') => {
