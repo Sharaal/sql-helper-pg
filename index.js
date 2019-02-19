@@ -7,7 +7,7 @@ module.exports = client =>
     insert: (table, row) =>
       client.query(sql`INSERT INTO ${sql.identifier(table)} (${sql.identifiers(Object.keys(row))}) VALUES (${sql.values(Object.values(row))})`),
     update: (table, updates, conditions) =>
-      client.query(sql`UPDATE ${sql.identifier(table)} SET ${sql.pairs(updates)} WHERE ${sql.pairs(conditions, ' AND ')}`),
+      client.query(sql`UPDATE ${sql.identifier(table)} SET ${sql.pairs(updates, ', ')} WHERE ${sql.pairs(conditions, ' AND ')}`),
     delete: (table, conditions) =>
       client.query(sql`DELETE FROM ${sql.identifier(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
   })
