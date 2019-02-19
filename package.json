@@ -1,0 +1,13 @@
+{
+  "name": "@sharaal/sql-pg",
+  "version": "1.0.0",
+  "description": "The library provide smart helpers for standard operations integrated with PostgreSQL.",
+  "repository": "sharaal/sql-pg",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@sharaal/sql": "^1.0.0"
+  }
+}
