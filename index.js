@@ -7,25 +7,25 @@ module.exports = client =>
         conditions = columns
         columns = ['*']
       }
-      const result = await client.query(sql`SELECT ${sql.identifiers(columns)} FROM ${sql.identifier(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
+      const result = await client.query(sql`SELECT ${sql.keys(columns)} FROM ${sql.key(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
       return result.rows
     },
     insert: async (table, rows, serialColumn = 'id') => {
       if (!Array.isArray(rows)) {
         rows = [rows]
       }
-      const result = await client.query(sql`INSERT INTO ${sql.identifier(table)} (${sql.identifiers(rows[0])}) VALUES ${sql.valuesList(rows)} RETURNING ${sql.identifier(serialColumn)}`)
+      const result = await client.query(sql`INSERT INTO ${sql.key(table)} (${sql.keys(rows[0])}) VALUES ${sql.valuesList(rows)} RETURNING ${sql.key(serialColumn)}`)
       if (rows.length === 1) {
         return result.rows[0][serialColumn]
       }
       return result.rows.map(row => row[serialColumn])
     },
     update: async (table, updates, conditions) => {
-      const result = await client.query(sql`UPDATE ${sql.identifier(table)} SET ${sql.pairs(updates, ', ')} WHERE ${sql.pairs(conditions, ' AND ')}`)
+      const result = await client.query(sql`UPDATE ${sql.key(table)} SET ${sql.pairs(updates, ', ')} WHERE ${sql.pairs(conditions, ' AND ')}`)
       return result.rowCount
     },
     delete: async (table, conditions) => {
-      const result = await client.query(sql`DELETE FROM ${sql.identifier(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
+      const result = await client.query(sql`DELETE FROM ${sql.key(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
       return result.rowCount
     }
   })
