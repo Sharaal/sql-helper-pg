@@ -71,7 +71,7 @@ const ids = await client.insert(
 // parameters: ['valueA1', 'valueB1', 'valueC1', 'valueA2', 'valueB2', 'valueC2', 'valueA3', 'valueB3', 'valueC3']
 ```
 
-### Another serial column
+### Returning another serial column
 
 ```javascript
 const example = await client.insert(
