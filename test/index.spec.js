@@ -165,14 +165,14 @@ describe('sql', () => {
       sqlHelperPg(client)
       const actualRowCount = await client.delete(
         'users',
-        { email: 'old email', passwordhash: 'old passwordhash' }
+        { email: 'email', passwordhash: 'passwordhash' }
       )
 
       assert(expectedRowCount === actualRowCount)
 
       const expectedArgs = {
         text: 'DELETE FROM "users" WHERE "email" = $1 AND "passwordhash" = $2',
-        parameters: ['old email', 'old passwordhash']
+        parameters: ['email', 'passwordhash']
       }
       assert(client.query.calledOnce)
       const actualArgs = client.query.getCall(0).args[0]
