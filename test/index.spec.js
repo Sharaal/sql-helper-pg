@@ -24,8 +24,10 @@ describe('sql', () => {
         parameters: ['email', 'passwordhash']
       }
       assert(client.query.calledOnce)
-      const actualArgs = client.query.getCall(0).args[0]
-      assert.deepEqual(expectedArgs, actualArgs)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual(actualArgs, expectedArgs)
     })
 
     it('should select only the list of the given columns', async () => {
@@ -48,8 +50,10 @@ describe('sql', () => {
         parameters: ['email', 'passwordhash']
       }
       assert(client.query.calledOnce)
-      const actualArgs = client.query.getCall(0).args[0]
-      assert.deepEqual(expectedArgs, actualArgs)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual(actualArgs, expectedArgs)
     })
   })
 
@@ -73,8 +77,10 @@ describe('sql', () => {
         parameters: ['email', 'passwordhash']
       }
       assert(client.query.calledOnce)
-      const actualArgs = client.query.getCall(0).args[0]
-      assert.deepEqual(expectedArgs, actualArgs)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual(actualArgs, expectedArgs)
     })
 
     it('should insert multiple rows', async () => {
@@ -100,8 +106,10 @@ describe('sql', () => {
         parameters: ['emailA', 'passwordhashA', 'emailB', 'passwordhashB', 'emailC', 'passwordhashC']
       }
       assert(client.query.calledOnce)
-      const actualArgs = client.query.getCall(0).args[0]
-      assert.deepEqual(expectedArgs, actualArgs)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual(actualArgs, expectedArgs)
     })
 
     it('should returning another serial column', async () => {
@@ -124,8 +132,10 @@ describe('sql', () => {
         parameters: ['email', 'passwordhash']
       }
       assert(client.query.calledOnce)
-      const actualArgs = client.query.getCall(0).args[0]
-      assert.deepEqual(expectedArgs, actualArgs)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual(actualArgs, expectedArgs)
     })
   })
 
@@ -150,8 +160,10 @@ describe('sql', () => {
         parameters: ['new email', 'new passwordhash', 'old email', 'old passwordhash']
       }
       assert(client.query.calledOnce)
-      const actualArgs = client.query.getCall(0).args[0]
-      assert.deepEqual(expectedArgs, actualArgs)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual(actualArgs, expectedArgs)
     })
   })
 
@@ -175,8 +187,10 @@ describe('sql', () => {
         parameters: ['email', 'passwordhash']
       }
       assert(client.query.calledOnce)
-      const actualArgs = client.query.getCall(0).args[0]
-      assert.deepEqual(expectedArgs, actualArgs)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual(actualArgs, expectedArgs)
     })
   })
 })
