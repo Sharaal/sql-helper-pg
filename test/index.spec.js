@@ -3,7 +3,7 @@ const sinon = require('sinon')
 
 const sqlHelperPg = require('../')
 
-describe('sql', () => {
+describe('sql-helper-pg', () => {
   describe('SELECT', () => {
     it('should select all columns', async () => {
       const expectedRows = [{ id: 'id', email: 'email', passwordhash: 'passwordhash', active: 'active' }]
