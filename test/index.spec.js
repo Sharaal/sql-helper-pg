@@ -27,7 +27,7 @@ describe('sql', () => {
       let actualArgs = client.query.getCall(0).args[0]
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
-      assert.deepEqual(actualArgs, expectedArgs)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
 
     it('should select only the list of the given columns', async () => {
@@ -53,7 +53,7 @@ describe('sql', () => {
       let actualArgs = client.query.getCall(0).args[0]
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
-      assert.deepEqual(actualArgs, expectedArgs)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
   })
 
@@ -80,7 +80,7 @@ describe('sql', () => {
       let actualArgs = client.query.getCall(0).args[0]
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
-      assert.deepEqual(actualArgs, expectedArgs)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
 
     it('should insert multiple rows', async () => {
@@ -109,7 +109,7 @@ describe('sql', () => {
       let actualArgs = client.query.getCall(0).args[0]
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
-      assert.deepEqual(actualArgs, expectedArgs)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
 
     it('should returning another serial column', async () => {
@@ -135,7 +135,7 @@ describe('sql', () => {
       let actualArgs = client.query.getCall(0).args[0]
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
-      assert.deepEqual(actualArgs, expectedArgs)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
   })
 
@@ -163,7 +163,7 @@ describe('sql', () => {
       let actualArgs = client.query.getCall(0).args[0]
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
-      assert.deepEqual(actualArgs, expectedArgs)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
   })
 
@@ -190,7 +190,7 @@ describe('sql', () => {
       let actualArgs = client.query.getCall(0).args[0]
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
-      assert.deepEqual(actualArgs, expectedArgs)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
   })
 })
