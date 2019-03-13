@@ -3,7 +3,7 @@ The library provide smart helpers for standard operations integrated with Postgr
 # Initialization
 
 ```javascript
-require('@sharaal/sql-helper-pg')(client)
+require('sql-pg-helper')(client)
 ```
 
 # Examples
