@@ -3,7 +3,15 @@ The library provide smart helpers for standard operations integrated with Postgr
 # Initialization
 
 ```javascript
-require('sql-pg-helper')(client)
+require('sql-pg-helper')({ client })
+```
+
+:warning: If the client is restricted by using [sql-pg-restrict](https://www.npmjs.com/package/sql-pg-restrict) it's needed to add the restricted `sql` tag to the initialization:
+
+```javascript
+const sql = require('sql-pg-restrict')
+sql.restrict(client)
+require('sql-pg-helper')({ client, sql })
 ```
 
 # Examples

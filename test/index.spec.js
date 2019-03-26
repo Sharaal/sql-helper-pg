@@ -11,7 +11,7 @@ describe('sql-pg-helper', () => {
         query: sinon.fake.returns(Promise.resolve({ rows: expectedRows }))
       }
 
-      sqlPgHelper(client)
+      sqlPgHelper({ client })
       const actualRows = await client.select(
         'users',
         { email: 'email', passwordhash: 'passwordhash' }
@@ -36,7 +36,7 @@ describe('sql-pg-helper', () => {
         query: sinon.fake.returns(Promise.resolve({ rows: expectedRows }))
       }
 
-      sqlPgHelper(client)
+      sqlPgHelper({ client })
       const actualRows = await client.select(
         'users',
         ['id', 'active'],
@@ -64,7 +64,7 @@ describe('sql-pg-helper', () => {
         query: sinon.fake.returns(Promise.resolve({ rows: [{ id: expectedId }] }))
       }
 
-      sqlPgHelper(client)
+      sqlPgHelper({ client })
       const actualId = await client.insert(
         'users',
         { email: 'email', passwordhash: 'passwordhash' }
@@ -89,7 +89,7 @@ describe('sql-pg-helper', () => {
         query: sinon.fake.returns(Promise.resolve({ rows: expectedIds.map(id => ({ id })) }))
       }
 
-      sqlPgHelper(client)
+      sqlPgHelper({ client })
       const actualIds = await client.insert(
         'users',
         [
@@ -118,7 +118,7 @@ describe('sql-pg-helper', () => {
         query: sinon.fake.returns(Promise.resolve({ rows: [{ example: expectedExample }] }))
       }
 
-      sqlPgHelper(client)
+      sqlPgHelper({ client })
       const actualExample = await client.insert(
         'users',
         { email: 'email', passwordhash: 'passwordhash' },
@@ -146,7 +146,7 @@ describe('sql-pg-helper', () => {
         query: sinon.fake.returns(Promise.resolve({ rowCount: expectedRowCount }))
       }
 
-      sqlPgHelper(client)
+      sqlPgHelper({ client })
       const actualRowCount = await client.update(
         'users',
         { email: 'new email', passwordhash: 'new passwordhash' },
@@ -174,7 +174,7 @@ describe('sql-pg-helper', () => {
         query: sinon.fake.returns(Promise.resolve({ rowCount: expectedRowCount }))
       }
 
-      sqlPgHelper(client)
+      sqlPgHelper({ client })
       const actualRowCount = await client.delete(
         'users',
         { email: 'email', passwordhash: 'passwordhash' }
