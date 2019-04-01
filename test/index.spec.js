@@ -112,6 +112,33 @@ describe('sql-pg-helper', () => {
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
     })
 
+    it('should return array of IDs also if inserting single row as array', async () => {
+      const expectedIds = [2]
+      const client = {
+        query: sinon.fake.returns(Promise.resolve({ rows: expectedIds.map(id => ({ id })) }))
+      }
+
+      sqlPgHelper({ client })
+      const actualIds = await client.insert(
+        'users',
+        [
+          { email: 'emailA', passwordhash: 'passwordhashA' }
+        ]
+      )
+
+      assert.deepEqual(expectedIds, actualIds)
+
+      const expectedArgs = {
+        text: 'INSERT INTO "users" ("email", "passwordhash") VALUES ($1, $2) RETURNING "id"',
+        parameters: ['emailA', 'passwordhashA']
+      }
+      assert(client.query.calledOnce)
+      let actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+      actualArgs = actualArgs(0)
+      assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+    })
+
     it('should returning another serial column', async () => {
       const expectedExample = 5
       const client = {

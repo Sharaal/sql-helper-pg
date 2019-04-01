@@ -9,11 +9,13 @@ module.exports = ({ client, sql: sql = require('../sql-pg') }) =>
       return result.rows
     },
     insert: async (table, rows, serialColumn = 'id') => {
+      let array = true
       if (!Array.isArray(rows)) {
         rows = [rows]
+        array = false
       }
       const result = await client.query(sql`INSERT INTO ${sql.key(table)} (${sql.keys(rows[0])}) VALUES ${sql.valuesList(rows)} RETURNING ${sql.key(serialColumn)}`)
-      if (rows.length === 1) {
+      if (!array) {
         return result.rows[0][serialColumn]
       }
       return result.rows.map(row => row[serialColumn])
