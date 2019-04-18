@@ -10,7 +10,7 @@ require('sql-pg-helper')({ client })
 
 ```javascript
 const sql = require('sql-pg-restrict')
-sql.restrict(client)
+const client = sql.restrict(originalClient)
 require('sql-pg-helper')({ client, sql })
 ```
 
