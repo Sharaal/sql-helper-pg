@@ -4,7 +4,7 @@ const sinon = require('sinon')
 const sqlPgHelper = require('../')
 
 describe('sql-pg-helper', () => {
-  describe('SELECT', () => {
+  describe('Select', () => {
     it('should select all columns', async () => {
       const expectedRows = [{ id: 'id', email: 'email', passwordhash: 'passwordhash', active: 'active' }]
       const client = {
@@ -12,6 +12,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualRows = await client.select(
         'users',
         { email: 'email', passwordhash: 'passwordhash' }
@@ -37,6 +38,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualRows = await client.select(
         'users',
         ['id', 'active'],
@@ -57,7 +59,7 @@ describe('sql-pg-helper', () => {
     })
   })
 
-  describe('INSERT', () => {
+  describe('Insert', () => {
     it('should insert single row', async () => {
       const expectedId = 5
       const client = {
@@ -65,6 +67,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualId = await client.insert(
         'users',
         { email: 'email', passwordhash: 'passwordhash' }
@@ -90,6 +93,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualIds = await client.insert(
         'users',
         [
@@ -119,6 +123,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualIds = await client.insert(
         'users',
         [
@@ -146,6 +151,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualExample = await client.insert(
         'users',
         { email: 'email', passwordhash: 'passwordhash' },
@@ -166,7 +172,7 @@ describe('sql-pg-helper', () => {
     })
   })
 
-  describe('UPDATE', () => {
+  describe('Update', () => {
     it('should update rows', async () => {
       const expectedRowCount = 5
       const client = {
@@ -174,6 +180,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualRowCount = await client.update(
         'users',
         { email: 'new email', passwordhash: 'new passwordhash' },
@@ -194,7 +201,7 @@ describe('sql-pg-helper', () => {
     })
   })
 
-  describe('DELETE', () => {
+  describe('Delete', () => {
     it('should delete rows', async () => {
       const expectedRowCount = 5
       const client = {
@@ -202,6 +209,7 @@ describe('sql-pg-helper', () => {
       }
 
       sqlPgHelper({ client })
+
       const actualRowCount = await client.delete(
         'users',
         { email: 'email', passwordhash: 'passwordhash' }
@@ -218,6 +226,48 @@ describe('sql-pg-helper', () => {
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
       actualArgs = actualArgs(0)
       assert.deepEqual({ text: actualArgs.text, parameters: actualArgs.parameters }, expectedArgs)
+    })
+  })
+
+  describe('Transaction', () => {
+    it('should begin and commit a succesful transaction', async () => {
+      const client = {
+        query: sinon.fake()
+      }
+
+      sqlPgHelper({ client })
+
+      await client.transaction(async () => {
+        await client.query('SELECT 1')
+      })
+
+      assert.equal(client.query.callCount, 3)
+      assert.deepEqual(client.query.getCall(0).args, ['BEGIN'])
+      assert.deepEqual(client.query.getCall(1).args, ['SELECT 1'])
+      assert.deepEqual(client.query.getCall(2).args, ['COMMIT'])
+    })
+
+    it('should begin and rollback a failed transaction', async () => {
+      const client = {
+        query: sinon.fake()
+      }
+
+      sqlPgHelper({ client })
+
+      try {
+        await client.transaction(async () => {
+          await client.query('SELECT 1')
+          throw new Error('example')
+        })
+        assert(false)
+      } catch (e) {
+        assert.equal(e.message, 'example')
+      }
+
+      assert.equal(client.query.callCount, 3)
+      assert.deepEqual(client.query.getCall(0).args, ['BEGIN'])
+      assert.deepEqual(client.query.getCall(1).args, ['SELECT 1'])
+      assert.deepEqual(client.query.getCall(2).args, ['ROLLBACK'])
     })
   })
 })

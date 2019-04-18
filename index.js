@@ -27,5 +27,15 @@ module.exports = ({ client, sql: sql = require('../sql-pg') }) =>
     delete: async (table, conditions) => {
       const result = await client.query(sql`DELETE FROM ${sql.key(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
       return result.rowCount
+    },
+    transaction: async (callback) => {
+      await client.query('BEGIN')
+      try {
+        await callback()
+        await client.query('COMMIT')
+      } catch (e) {
+        await client.query('ROLLBACK')
+        throw e
+      }
     }
   })

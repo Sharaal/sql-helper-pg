@@ -16,7 +16,7 @@ require('sql-pg-helper')({ client, sql })
 
 # Examples
 
-## SELECT
+## Select
 
 The return value is `result.rows` of the pg result object.
 
@@ -45,7 +45,7 @@ const rows = await client.select(
 // parameters: ['email', 'passwordhash']
 ```
 
-## INSERT
+## Insert
 
 ### Single row (rows is an object)
 
@@ -94,7 +94,7 @@ const example = await client.insert(
 // parameters: ['email', 'passwordhash']
 ```
 
-## UPDATE
+## Update
 
 The return value is the count of the rows affected by the update located in `result.rowCount` of the pg result object.
 
@@ -109,7 +109,7 @@ const rowCount = await client.update(
 // parameters: ['new email', 'new passwordhash', 'old email', 'old passwordhash']
 ```
 
-## DELETE
+## Delete
 
 The return value is the count of the rows affected by the delete located in `result.rowCount` of the pg result object.
 
@@ -121,4 +121,22 @@ const rowCount = await client.delete(
 
 // text: DELETE FROM "users" WHERE "email" = $1 AND "passwordhash" = $2
 // parameters: ['email', 'passwordhash']
+```
+
+## Transaction
+
+It's possible to wrap multiple queries into a transaction which will be started and at the end committed. If an error is thrown, the transaction will be rollbacked.
+
+```javascript
+await client.transaction(async () => {
+  const email = 'email'
+  const id = await client.insert(
+    'users',
+    { email, passwordhash: 'passwordhash' }
+  )
+  await client.insert(
+    'audits',
+    { type: 'user registration', message: `user with e-mail "${email}" is registered with the ID ${id}` }
+  )
+})
 ```
