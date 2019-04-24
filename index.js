@@ -1,4 +1,4 @@
-module.exports = ({ client, sql: sql = require('../sql-pg') }) =>
+module.exports = ({ client, sql: sql = require('sql-pg') }) =>
   Object.assign(client, {
     select: async (table, columns, conditions) => {
       if (!conditions) {
