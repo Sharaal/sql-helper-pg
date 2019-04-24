@@ -190,7 +190,7 @@ describe('sql-pg-helper', () => {
       assert(expectedRowCount === actualRowCount)
 
       const expectedArgs = {
-        text: 'UPDATE "users" SET "email" = $1, "passwordhash" = $2 WHERE "email" = $3 AND "passwordhash" = $4',
+        text: 'UPDATE "users" SET ("email", "passwordhash") = ($1, $2) WHERE "email" = $3 AND "passwordhash" = $4',
         parameters: ['new email', 'new passwordhash', 'old email', 'old passwordhash']
       }
       assert(client.query.calledOnce)

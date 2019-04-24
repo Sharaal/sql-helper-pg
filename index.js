@@ -5,7 +5,7 @@ module.exports = ({ client, sql: sql = require('sql-pg') }) =>
         conditions = columns
         columns = ['*']
       }
-      const result = await client.query(sql`SELECT ${sql.keys(columns)} FROM ${sql.key(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
+      const result = await client.query(sql`SELECT ${sql.keys(columns)} FROM ${sql.key(table)} WHERE ${sql.conditions(conditions)}`)
       return result.rows
     },
     insert: async (table, rows, serialColumn = 'id') => {
@@ -21,11 +21,11 @@ module.exports = ({ client, sql: sql = require('sql-pg') }) =>
       return result.rows.map(row => row[serialColumn])
     },
     update: async (table, updates, conditions) => {
-      const result = await client.query(sql`UPDATE ${sql.key(table)} SET ${sql.pairs(updates, ', ')} WHERE ${sql.pairs(conditions, ' AND ')}`)
+      const result = await client.query(sql`UPDATE ${sql.key(table)} SET ${sql.assignments(updates)} WHERE ${sql.conditions(conditions)}`)
       return result.rowCount
     },
     delete: async (table, conditions) => {
-      const result = await client.query(sql`DELETE FROM ${sql.key(table)} WHERE ${sql.pairs(conditions, ' AND ')}`)
+      const result = await client.query(sql`DELETE FROM ${sql.key(table)} WHERE ${sql.conditions(conditions)}`)
       return result.rowCount
     },
     transaction: async (callback) => {
