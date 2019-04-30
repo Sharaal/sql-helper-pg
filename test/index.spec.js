@@ -1,6 +1,7 @@
 const assert = require('power-assert')
 const sinon = require('sinon')
 
+const sql = require('sql-pg')
 const sqlPgHelper = require('../')
 
 describe('sql-pg-helper', () => {
@@ -238,13 +239,26 @@ describe('sql-pg-helper', () => {
       sqlPgHelper({ client })
 
       await client.transaction(async () => {
-        await client.query('SELECT 1')
+        await client.query(sql`SELECT 1`)
       })
 
       assert.equal(client.query.callCount, 3)
-      assert.deepEqual(client.query.getCall(0).args, ['BEGIN'])
-      assert.deepEqual(client.query.getCall(1).args, ['SELECT 1'])
-      assert.deepEqual(client.query.getCall(2).args, ['COMMIT'])
+      let actualArgs
+      actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual(
+        { text: actualArgs.text, parameters: actualArgs.parameters },
+        { text: 'BEGIN', parameters: [] }
+      )
+      actualArgs = client.query.getCall(1).args[0]
+      assert.deepEqual(
+        { text: actualArgs.text, parameters: actualArgs.parameters },
+        { text: 'SELECT 1', parameters: [] }
+      )
+      actualArgs = client.query.getCall(2).args[0]
+      assert.deepEqual(
+        { text: actualArgs.text, parameters: actualArgs.parameters },
+        { text: 'COMMIT', parameters: [] }
+      )
     })
 
     it('should begin and rollback a failed transaction', async () => {
@@ -256,7 +270,7 @@ describe('sql-pg-helper', () => {
 
       try {
         await client.transaction(async () => {
-          await client.query('SELECT 1')
+          await client.query(sql`SELECT 1`)
           throw new Error('example')
         })
         assert(false)
@@ -265,9 +279,22 @@ describe('sql-pg-helper', () => {
       }
 
       assert.equal(client.query.callCount, 3)
-      assert.deepEqual(client.query.getCall(0).args, ['BEGIN'])
-      assert.deepEqual(client.query.getCall(1).args, ['SELECT 1'])
-      assert.deepEqual(client.query.getCall(2).args, ['ROLLBACK'])
+      let actualArgs
+      actualArgs = client.query.getCall(0).args[0]
+      assert.deepEqual(
+        { text: actualArgs.text, parameters: actualArgs.parameters },
+        { text: 'BEGIN', parameters: [] }
+      )
+      actualArgs = client.query.getCall(1).args[0]
+      assert.deepEqual(
+        { text: actualArgs.text, parameters: actualArgs.parameters },
+        { text: 'SELECT 1', parameters: [] }
+      )
+      actualArgs = client.query.getCall(2).args[0]
+      assert.deepEqual(
+        { text: actualArgs.text, parameters: actualArgs.parameters },
+        { text: 'ROLLBACK', parameters: [] }
+      )
     })
   })
 })

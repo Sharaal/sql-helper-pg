@@ -29,12 +29,12 @@ module.exports = ({ client, sql: sql = require('sql-pg') }) =>
       return result.rowCount
     },
     transaction: async (callback) => {
-      await client.query('BEGIN')
+      await client.query(sql`BEGIN`)
       try {
         await callback()
-        await client.query('COMMIT')
+        await client.query(sql`COMMIT`)
       } catch (e) {
-        await client.query('ROLLBACK')
+        await client.query(sql`ROLLBACK`)
         throw e
       }
     }
