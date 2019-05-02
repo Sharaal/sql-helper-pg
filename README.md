@@ -1,3 +1,5 @@
+**DEPRECATED: The functionality of these package is now directly integrated in `sql-pg`**
+
 The library provide smart helpers for standard operations integrated with PostgreSQL.
 
 # Initialization
